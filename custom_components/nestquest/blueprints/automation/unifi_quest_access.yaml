@@ -1,0 +1,96 @@
+blueprint:
+  name: NestQuest UniFi quest access
+  description: >-
+    One automation per child. Completely block the selected UniFi clients
+    after the local weekday/weekend cutoff while that child has quests
+    remaining TODAY. Restore network access immediately when the count
+    reaches zero, and at midnight even if yesterday was incomplete.
+    A missing or unavailable quest sensor is treated as still open after
+    the cutoff; verify the sensor before enabling this automation. The
+    selected UniFi client switches are ON when access is allowed and
+    OFF when blocked. Do not select infrastructure or adult devices.
+  domain: automation
+  input:
+    remaining_sensor:
+      name: Child's quests remaining today
+      description: Select this child's NestQuest quests remaining today sensor.
+      selector:
+        entity:
+          filter:
+            - integration: nestquest
+              domain: sensor
+    client_switches:
+      name: Child's UniFi client access switches
+      description: >-
+        Select every UniFi client access switch for this child. These
+        switches are ON when network access is allowed and OFF when blocked.
+      selector:
+        entity:
+          multiple: true
+          filter:
+            - integration: unifi
+              domain: switch
+    weekday_cutoff:
+      name: Monday-Friday cutoff
+      default: "18:25:00"
+      selector:
+        time: {}
+    weekend_cutoff:
+      name: Saturday-Sunday cutoff
+      default: "14:00:00"
+      selector:
+        time: {}
+
+mode: restart
+
+variables:
+  remaining_sensor: !input remaining_sensor
+  client_switches: !input client_switches
+  weekday_cutoff: !input weekday_cutoff
+  weekend_cutoff: !input weekend_cutoff
+
+triggers:
+  - trigger: state
+    entity_id: !input remaining_sensor
+  - trigger: time
+    at: !input weekday_cutoff
+  - trigger: time
+    at: !input weekend_cutoff
+  - trigger: time
+    at: "00:00:00"
+  - trigger: homeassistant
+    event: start
+  # Reconcile after missed events or a temporary UniFi outage.
+  - trigger: time_pattern
+    minutes: "/5"
+
+conditions:
+  - condition: template
+    value_template: "{{ client_switches | count > 0 }}"
+
+actions:
+  - variables:
+      should_block: >-
+        {{ now().strftime('%H:%M') >=
+           (weekday_cutoff[:5] if now().weekday() < 5 else weekend_cutoff[:5])
+           and (states(remaining_sensor) | int(-1)) != 0 }}
+  - repeat:
+      for_each: "{{ client_switches }}"
+      sequence:
+        - choose:
+            - conditions:
+                - condition: template
+                  value_template: >-
+                    {{ should_block | bool and is_state(repeat.item, 'on') }}
+              sequence:
+                - action: switch.turn_off
+                  target:
+                    entity_id: "{{ repeat.item }}"
+            - conditions:
+                - condition: template
+                  value_template: >-
+                    {{ not (should_block | bool) and is_state(repeat.item, 'off') }}
+              sequence:
+                - action: switch.turn_on
+                  target:
+                    entity_id: "{{ repeat.item }}"
