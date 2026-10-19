@@ -73,12 +73,12 @@ actions:
 
 ## Automation Blueprints
 
-NestQuest ships four automation blueprints in
+NestQuest ships five automation blueprints in
 `custom_components/nestquest/blueprints/automation/`. Import them in
 Home Assistant under **Settings → Automations & Scenes → Blueprints**
 (or place the files in your `config/blueprints/automation/` folder),
-then create one automation per blueprint, filling the inputs with your
-household's choices.
+then create automations from the blueprints, filling the inputs with your
+household's choices. The UniFi blueprint needs one automation per child.
 
 ### Wiring to the integration's notification settings
 
@@ -100,7 +100,7 @@ The end-of-day report deliberately runs BEFORE the midnight missed
 sweep and reads the same day's data — do not schedule it at the
 day-rollover time.
 
-### The four blueprints
+### The five blueprints
 
 1. **Morning summary** (`morning_summary.yaml`) — at the configured
    time, lists every child whose `binary_sensor.nestquest_<child>_present_today`
@@ -128,10 +128,36 @@ day-rollover time.
    not re-fire, but a second child clearing the same day still
    celebrates.
 
+5. **UniFi quest access** (`unifi_quest_access.yaml`) — create one
+   automation per child. Select that child's quests-remaining-today
+   sensor, present-today sensor, and all of their UniFi client access
+   switches. At 18:25 local
+   time Monday-Friday or 14:00 Saturday-Sunday, clients with open
+   quests lose all network access; access returns as soon as the count
+   reaches zero. When the child is **On travels** (`present today` is off),
+   access stays on regardless of open quests. An unavailable presence sensor
+   also leaves access on; verify that sensor before relying on enforcement.
+   Returning after the cutoff reapplies the rule immediately. At midnight
+   the old day's quests stop affecting access.
+   The automation also reconciles after Home Assistant starts and every
+   five minutes. If the quest sensor is unavailable after the cutoff,
+   it keeps the child blocked until a valid zero is observed.
+
+   First configure the [Home Assistant UniFi Network integration](https://www.home-assistant.io/integrations/unifi/)
+   with a local account that can manage clients. Under its **Network
+   access controlled clients** option, add each child's devices by MAC
+   address, then verify the resulting client access switches manually.
+   Those switches are **on = allowed** and **off = blocked**. Do not
+   select gateway, access-point, Home Assistant, or adult-device
+   switches. To override in an emergency, disable that child's
+   automation and turn their client switches on; re-enable the
+   automation to resume the quest rule. Device MAC randomization or
+   cellular data can bypass a MAC-based Wi-Fi block.
+
 ### Example package
 
 ```yaml
-# One automation per blueprint — Settings → Automations & Scenes →
+# Create automations from blueprints — Settings → Automations & Scenes →
 # Create → Blueprint, then pick each NestQuest blueprint.
 #
 # morning_summary:   morning_time 08:00, notify_target notify.mobile_app_your_phone
