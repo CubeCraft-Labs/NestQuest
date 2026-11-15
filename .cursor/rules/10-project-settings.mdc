@@ -34,12 +34,11 @@ Canonical launch and release procedures are in CTXD RUNBOOKS.MD.
 Use the current owner-approved role settings.
 
 The reviewer remains a fresh isolated read-only process with immutable source,
-sanitized evidence and no developer conversation, publishing credential, shell,
-browser, write tool or MCP access. The trusted outer wrapper alone publishes its
+sanitized evidence and no developer conversation, publishing credential or
+write access. The installed wrapper runs Codex in its read-only sandbox. The trusted outer wrapper alone publishes its
 unchanged exact-head verdict/status. Never replace it with self-review or a native
 Cursor reviewer. Only the separate broker-backed approver may automate allowed
-integration merges. If the trusted server paths are unavailable, hand off the
-exact branch/head/evidence rather than replacing the reviewer or merge mechanism.
+integration merges.
 
 ## Project guardrails
 
