@@ -17,5 +17,5 @@
   "developer_launcher": "nq-agent developer",
   "review_launcher": "nq-review",
   "merge_broker": "nq-approve-merge",
-  "release_policy_reference": "overseer@10.60.1.85:/home/overseer/.local/share/nestquest-controller/templates/references/release.md"
+  "release_policy_reference": "CTXD nestquest-house-chaos-coordination/RUNBOOKS.MD"
 }
