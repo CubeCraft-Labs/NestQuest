@@ -20,25 +20,17 @@ Only Joshua (GitHub maniacsmansion) merges main.
 Older checkouts may point to a legacy origin. Verify the current checkout
 against the canonical GitHub repository before publishing or scheduling work.
 
-## Existing roles — verified 2026-11-01
+## Role authority
 
-- Orchestration: OpenCode / openrouter/deepseek/deepseek-v4.1-flash / high.
-- Developer: Cursor CLI / grok-4.7[context=500k,reasoning_effort=high,fast=false] / high.
-- Independent reviewer: Codex CLI / gpt-5.6-terra / medium.
-- Separate approval: OpenCode / openrouter/deepseek/deepseek-v4.1-flash / medium.
+Use the server-managed role profile and review wrapper documented in CTXD
+nestquest-house-chaos-coordination/RUNBOOKS.MD. The bindings identify those
+installed server roles for the canonical GitHub repository. Legacy Gitea
+workflow scripts inside the source tree describe an older pipeline.
 
-Installed orchestration roles (server environment):
-orchestrator nq-orchestrate; developer nq-agent developer;
-reviewer nq-review; permitted dev merge broker nq-approve-merge.
-Canonical launch and release procedures are in CTXD RUNBOOKS.MD.
-Use the current owner-approved role settings.
-
-The reviewer remains a fresh isolated read-only process with immutable source,
-sanitized evidence and no developer conversation, publishing credential or
-write access. The installed wrapper runs Codex in its read-only sandbox. The trusted outer wrapper alone publishes its
-unchanged exact-head verdict/status. Never replace it with self-review or a native
-Cursor reviewer. Only the separate broker-backed approver may automate allowed
-integration merges.
+The server reviewer remains separate from implementation, with a fresh
+read-only session and review tied to the exact immutable PR commits. Only its
+trusted wrapper publishes the review. The separate approval role handles
+permitted integration merges through its existing broker.
 
 ## Project guardrails
 
