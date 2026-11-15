@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "project_name": "NestQuest",
+  "canonical_repository": "https://github.com/CubeCraft-Labs/NestQuest.git",
+  "ctxd_project": "nestquest-house-chaos-coordination",
+  "runbook_file": "RUNBOOKS.MD",
+  "maestro": {
+    "connection": "maestro-maniacs-mansion-mcp",
+    "workspace_id": "fe2d4776-2689-4c5b-ba26-d388c691fad8",
+    "project_id": "b523d2de-fcce-41f6-a610-066fa8a0e827",
+    "context_key": "nestquest-house-chaos-coordination"
+  },
+  "integration_branch": "dev",
+  "release_branch": "main",
+  "main_merge_owner": "maniacsmansion",
+  "orchestrator_launcher": "nq-orchestrate",
+  "developer_launcher": "nq-agent developer",
+  "review_launcher": "nq-review",
+  "merge_broker": "nq-approve-merge",
+  "release_policy_reference": "overseer@10.60.1.85:/home/overseer/.local/share/nestquest-controller/templates/references/release.md"
+}

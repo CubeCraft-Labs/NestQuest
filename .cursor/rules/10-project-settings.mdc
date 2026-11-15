@@ -1,0 +1,54 @@
+---
+description: NestQuest identity and preserved project-specific role settings
+alwaysApply: true
+---
+
+# NestQuest settings
+
+The shared policy adds workflow guidance; it does not replace this project's
+applicable agent instructions, approved product/design constraints, tests,
+reviewer isolation or branch/release topology. Preserve stronger project gates.
+
+Canonical repository: https://github.com/CubeCraft-Labs/NestQuest.git
+CTXD: nestquest-house-chaos-coordination; all procedure updates only in its RUNBOOKS.MD.
+Maestro: NestQuest - House Chaos Coordination (b523d2de-fcce-41f6-a610-066fa8a0e827), workspace fe2d4776-2689-4c5b-ba26-d388c691fad8.
+Use local Cursor connection maestro-maniacs-mansion-mcp; the server launcher's
+connection name maestro-maniacs-mansion-workspace is a separate environment binding.
+Integration: dev; production: main.
+Only Joshua (GitHub maniacsmansion) merges main.
+
+Older checkouts may point to a legacy origin. Verify the current checkout
+against the canonical GitHub repository before publishing or scheduling work.
+
+## Existing roles — verified 2026-11-01
+
+- Orchestration: OpenCode / openrouter/deepseek/deepseek-v4.1-flash / high.
+- Developer: Cursor CLI / grok-4.7[context=500k,reasoning_effort=high,fast=false] / high.
+- Independent reviewer: Codex CLI / gpt-5.6-terra / medium.
+- Separate approval: OpenCode / openrouter/deepseek/deepseek-v4.1-flash / medium.
+
+These existing launchers run on overseer@10.60.1.85, not implicitly on this Mac:
+orchestrator nq-orchestrate; developer nq-agent developer;
+reviewer nq-review; permitted dev merge broker nq-approve-merge.
+Before an authorized launch, read the current approved server profile at
+/home/overseer/.local/share/nestquest-controller/templates/nestquest.profile.json and relevant workflow/release references under
+/home/overseer/.local/share/nestquest-controller/templates/references/.
+Keep later explicit user-approved settings; never treat this dated snapshot as
+permission to revert a newer configuration. Installing rules does not launch work.
+
+The reviewer remains a fresh isolated read-only process with immutable source,
+sanitized evidence and no developer conversation, publishing credential, shell,
+browser, write tool or MCP access. The trusted outer wrapper alone publishes its
+unchanged exact-head verdict/status. Never replace it with self-review or a native
+Cursor reviewer. Only the separate broker-backed approver may automate allowed
+integration merges. If the trusted server paths are unavailable, hand off the
+exact branch/head/evidence rather than replacing the reviewer or merge mechanism.
+
+## Project guardrails
+
+Read current CTXD nestquest-house-chaos-coordination context/decisions and repository engineering/design requirements. Preserve Home Assistant integration compatibility, required actual-browser/UX evidence and project-specific task/release topology. A model exit or source merge does not prove household or production acceptance.
+
+Read the current project CTXD context/decisions and repository instructions for
+the full engineering requirements. Keep runbook prose in CTXD only; do not copy
+the dossier or operating procedures into this rule. Existing legacy forge/account
+references do not override the owner-approved GitHub routing and owner identity.
